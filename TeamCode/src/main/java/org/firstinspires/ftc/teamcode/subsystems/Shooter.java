@@ -17,18 +17,18 @@ public class Shooter {
 
     private ShotMode currentShotMode = ShotMode.OFF;
 
-    private static final double NEAR_VELOCITY = 1170; //needs tuning
-    private static final double FAR_VELOCITY = 1400; //needs tuning
+    private static final double NEAR_VELOCITY = 1000; //needs tuning
+    private static final double FAR_VELOCITY = 1300; //needs tuning
     private static final double OFF_VELOCITY = 0.0;
 
     private boolean lastLeftBumper = false;
     private boolean lastRightBumper = false;
     private boolean lastBButton = false;
 
-    private static final double P = 32;
+    private static final double P = 1;
     private static final double I = 0;
     private static final double D = 0;
-    private static final double F = 20;
+    private static final double F = 17;
 
     private double lastTargetVelocity = 0;
 
