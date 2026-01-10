@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import static org.firstinspires.ftc.teamcode.autos.RedClose12Piece.autoEndPose;
+import static org.firstinspires.ftc.teamcode.autos.BlueClose12Piece.autoEndPose;
 
 import com.bylazar.configurables.annotations.Configurable;
 import com.pedropathing.follower.Follower;
@@ -16,11 +16,11 @@ import org.firstinspires.ftc.teamcode.subsystems.ScoringAction;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Configurable
-@TeleOp(name = "Red TeleOp", group = "TeleOp")
-public class RedTeleop extends OpMode {
+@TeleOp(name = "Blue TeleOp", group = "TeleOp")
+public class BlueTeleop extends OpMode {
 
     private Follower follower;
-    public static Pose relocalizePose = new Pose(20.45698166431594, 11.424541607898442, Math.toRadians(180));
+    public static Pose relocalizePose = new Pose(123.54301833568406, 11.424541607898442, Math.toRadians(0)); // Mirrored from red
 
     private Intake intake;
     private Shooter shooter;
@@ -46,7 +46,7 @@ public class RedTeleop extends OpMode {
 
         scoringAction = new ScoringAction(intake, kicker);
 
-        telemetry.addLine("Red TeleOp Initialized!");
+        telemetry.addLine("Blue TeleOp Initialized!");
         telemetry.update();
     }
 
@@ -62,12 +62,12 @@ public class RedTeleop extends OpMode {
         kicker.update();
         scoringAction.update();
 
-        // Always-on turret auto-tracking (RED alliance)
+        // Always-on turret auto-tracking (BLUE alliance)
         turret.aimAtGoal(
                 follower.getPose().getX(),
                 follower.getPose().getY(),
                 follower.getPose().getHeading(),
-                false  // false = RED alliance
+                true  // true = BLUE alliance
         );
         turret.update();
 
@@ -78,7 +78,7 @@ public class RedTeleop extends OpMode {
                 -gamepad1.left_stick_y * speedMultiplier,
                 -gamepad1.left_stick_x * speedMultiplier,
                 -gamepad1.right_stick_x * speedMultiplier * turningMultiplier,
-                false //false = field oriented
+                false
         );
 
         // ========== SLOW MODE ==========

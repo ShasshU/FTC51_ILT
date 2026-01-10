@@ -9,17 +9,17 @@ public class ScoringAction {
     private ElapsedTime timer;
 
     // Timing constants
-    private static final double INTAKE_TIME = 0.8; // Run intake for 2 seconds
-    private static final double KICK_WAIT = 0.2;   // Wait after extending kicker
+    private static final double INTAKE_TIME = 0.8; // Run intake for 0.8 seconds
+    private static final double KICK_COMPLETE_WAIT = 0.3; // Wait for pulse to complete (PULSE_EXTEND_TIME + buffer)
 
     // State machine
     private ScoringState currentState = ScoringState.IDLE;
 
     public enum ScoringState {
         IDLE,
-        INTAKING,      // Running intake for 2 seconds
-        KICKING,       // Kicker extended, waiting
-        RETRACTING,    // Retracting kicker and stopping
+        INTAKING,      // Running intake
+        KICKING,       // Kicker pulsing
+        WAITING_KICK,  // Wait for kick pulse to complete
         COMPLETE
     }
 
@@ -56,27 +56,20 @@ public class ScoringAction {
                 break;
 
             case INTAKING:
-                // Wait for 2 seconds of intake
+                // Wait for intake time, then kick
                 if (timer.seconds() >= INTAKE_TIME) {
-                    kicker.extend(); // Push last ball
+                    kicker.pulse(); // Use pulse instead of extend!
                     currentState = ScoringState.KICKING;
                     timer.reset();
                 }
                 break;
 
             case KICKING:
-                // Wait for kicker to fully extend before retracting
-                if (timer.seconds() >= KICK_WAIT) {
-                    currentState = ScoringState.RETRACTING;
-                    timer.reset();
+                // Wait for pulse to complete (kicker will auto-retract via update())
+                if (timer.seconds() >= KICK_COMPLETE_WAIT) {
+                    intake.stop();
+                    currentState = ScoringState.COMPLETE;
                 }
-                break;
-
-            case RETRACTING:
-                // Stop intake and retract kicker
-                intake.stop();
-                kicker.retract();
-                currentState = ScoringState.COMPLETE;
                 break;
 
             case COMPLETE:
