@@ -12,8 +12,8 @@ public class Kicker {
     private ElapsedTime timer;
 
     // Servo positions (adjust these after tuning)
-    public static double EXTENDED_POSITION = 1.0;   // TODO: Tune this value
-    public static double RETRACTED_POSITION = 0.5;  // TODO: Tune this value
+    public static double EXTENDED_POSITION = 0.6;   // TODO: Tune this value
+    public static double RETRACTED_POSITION = 0.91;  // TODO: Tune this value
 
     // Pulse timing
     private static final double PULSE_EXTEND_TIME = 0.2;  // How long to stay extended
